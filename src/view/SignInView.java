@@ -4,6 +4,15 @@
  */
 package view;
 
+import dao.Network;
+import dao.UserDAO;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.User;
+
 /**
  *
  * @author duke
@@ -91,6 +100,16 @@ public class SignInView extends javax.swing.JFrame {
         LoginView loginView = new LoginView();
         loginView.setVisible(true);
         this.setVisible(false);
+        User userXande = new User("Xande", "654321");
+        try {
+            Connection connection = new Network().getConnection();
+            UserDAO userDao = new UserDAO(connection);
+            userDao.insert(userXande);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(SignInView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
     }//GEN-LAST:event_saveButtonActionPerformed
 
     /**
