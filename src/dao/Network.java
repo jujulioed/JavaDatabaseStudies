@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class Network {
     
     public Connection getConnection() throws SQLException {
-        Connection link = DriverManager.getConnection("jdbc:postgresql://localhost:5432/exampledatabase", "user", "pass");
+        Connection link = DriverManager.getConnection("jdbc:postgresql://localhost:5432/javaexampledatabase", "postgres", "postgres");
         return link;
     }
 }

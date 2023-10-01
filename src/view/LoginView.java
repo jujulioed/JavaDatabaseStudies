@@ -4,17 +4,24 @@
  */
 package view;
 
+import controller.LoginController;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
 /**
  *
  * @author duke
  */
 public class LoginView extends javax.swing.JFrame {
 
+    private final LoginController controller;
+
     /**
      * Creates new form LoginView
      */
     public LoginView() {
         initComponents();
+        controller = new LoginController(this);
     }
 
     /**
@@ -87,9 +94,8 @@ public class LoginView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void logInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInButtonActionPerformed
-        MenuView menuScreen = new MenuView();
-        menuScreen.setVisible(true);
         this.setVisible(false);
+        controller.authenticate();
     }//GEN-LAST:event_logInButtonActionPerformed
 
     private void signInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInButtonActionPerformed
@@ -132,6 +138,24 @@ public class LoginView extends javax.swing.JFrame {
             }
         });
     }
+
+    public JPasswordField getPassField() {
+        return passField;
+    }
+
+    public void setPassField(JPasswordField passField) {
+        this.passField = passField;
+    }
+
+    public JTextField getUserField() {
+        return userField;
+    }
+
+    public void setUserField(JTextField userField) {
+        this.userField = userField;
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bgLogin;

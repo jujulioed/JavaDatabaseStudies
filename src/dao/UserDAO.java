@@ -6,6 +6,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.User;
 
@@ -22,11 +23,26 @@ public class UserDAO {
     }
 
     public void insert(User user) throws SQLException {
-        String sql = "insert into \"user\" (\"user\",\"password\") values('" + user.getUser() + "','" + user.getPassword() + "');";
+        String sql = "insert into \"user\" (\"user\",\"password\") values(?, ?);";
         PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, user.getUser());
+        statement.setString(2, user.getPassword());
         statement.execute();
         System.out.println("Cadastrado com sucesso");
-        statement.close();
+    }
+    
+    public boolean userByUsernameAndPasswordExists(User user) throws SQLException{
+        String sql = "select * from \"user\" where \"user\" = ? and \"password\" = ?;";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, user.getUser());
+        statement.setString(2, user.getPassword());
+        
+        
+        statement.execute();
+        System.out.println("Successfully Logged In");
+
+        ResultSet resultSet = statement.getResultSet();
+        return resultSet.next();
     }
 
 }
