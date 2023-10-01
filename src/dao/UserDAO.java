@@ -12,7 +12,7 @@ import model.User;
 
 /**
  *
- * @author duke
+ * @author jujulioed
  */
 public class UserDAO {
 

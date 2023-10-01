@@ -18,7 +18,7 @@ import model.User;
 
 /**
  *
- * @author duke
+ * @author jujulioed
  */
 public class SignInView extends javax.swing.JFrame {
     private final SignInController controller;

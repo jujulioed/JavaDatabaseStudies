@@ -16,7 +16,7 @@ import view.SignInView;
 
 /**
  *
- * @author duke
+ * @author jujulioed
  */
 public class SignInController {
     

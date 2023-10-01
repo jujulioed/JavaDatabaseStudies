@@ -6,7 +6,7 @@ package view;
 
 /**
  *
- * @author duke
+ * @author jujulioed
  */
 public class MenuView extends javax.swing.JFrame {
 

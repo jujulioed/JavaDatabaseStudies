@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author duke
+ * @author jujulioed
  */
 public class Network {
     
