@@ -4,6 +4,7 @@
  */
 package view;
 
+import controller.SignInController;
 import dao.Network;
 import dao.UserDAO;
 import java.sql.Connection;
@@ -11,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import model.User;
 
 /**
@@ -18,12 +21,14 @@ import model.User;
  * @author duke
  */
 public class SignInView extends javax.swing.JFrame {
+    private final SignInController controller;
 
     /**
      * Creates new form LoginView
      */
     public SignInView() {
         initComponents();
+        controller = new SignInController(this);
     }
 
     /**
@@ -36,7 +41,7 @@ public class SignInView extends javax.swing.JFrame {
     private void initComponents() {
 
         userText1 = new javax.swing.JLabel();
-        userField1 = new javax.swing.JTextField();
+        userId = new javax.swing.JTextField();
         passField = new javax.swing.JPasswordField();
         userField = new javax.swing.JTextField();
         passText = new javax.swing.JLabel();
@@ -53,10 +58,10 @@ public class SignInView extends javax.swing.JFrame {
         userText1.setText("Id");
         getContentPane().add(userText1, new org.netbeans.lib.awtextra.AbsoluteConstraints(465, 160, -1, -1));
 
-        userField1.setBackground(new java.awt.Color(255, 255, 255));
-        userField1.setFont(new java.awt.Font("RocknRoll One", 0, 18)); // NOI18N
-        userField1.setForeground(new java.awt.Color(0, 0, 0));
-        getContentPane().add(userField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(465, 190, 70, -1));
+        userId.setBackground(new java.awt.Color(255, 255, 255));
+        userId.setFont(new java.awt.Font("RocknRoll One", 0, 18)); // NOI18N
+        userId.setForeground(new java.awt.Color(0, 0, 0));
+        getContentPane().add(userId, new org.netbeans.lib.awtextra.AbsoluteConstraints(465, 190, 70, -1));
 
         passField.setBackground(new java.awt.Color(255, 255, 255));
         passField.setFont(new java.awt.Font("RocknRoll One", 0, 18)); // NOI18N
@@ -97,19 +102,7 @@ public class SignInView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        LoginView loginView = new LoginView();
-        loginView.setVisible(true);
-        this.setVisible(false);
-        User userXande = new User("Xande", "654321");
-        try {
-            Connection connection = new Network().getConnection();
-            UserDAO userDao = new UserDAO(connection);
-            userDao.insert(userXande);
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(SignInView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
+        controller.saveUser();
     }//GEN-LAST:event_saveButtonActionPerformed
 
     /**
@@ -148,13 +141,31 @@ public class SignInView extends javax.swing.JFrame {
         });
     }
 
+    public JPasswordField getPassField() {
+        return passField;
+    }
+
+    public void setPassField(JPasswordField passField) {
+        this.passField = passField;
+    }
+
+    public JTextField getUserField() {
+        return userField;
+    }
+
+    public void setUserField(JTextField userField) {
+        this.userField = userField;
+    }
+    
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bgLogin;
     private javax.swing.JPasswordField passField;
     private javax.swing.JLabel passText;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextField userField;
-    private javax.swing.JTextField userField1;
+    private javax.swing.JTextField userId;
     private javax.swing.JLabel userText;
     private javax.swing.JLabel userText1;
     // End of variables declaration//GEN-END:variables
