@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import model.User;
 
 /**
@@ -31,6 +32,47 @@ public class UserDAO {
         System.out.println("Cadastrado com sucesso");
     }
     
+    public void update(User user) throws SQLException {
+        String sql = "update \"user\"  set \"user\" = ? \"password\" = ? where \"id\" = ?;";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, user.getUser());
+        statement.setString(2, user.getPassword());
+        statement.setInt(3, user.getId());
+        statement.execute();
+        
+    }
+    
+    public void insertOrUpdate(User user) throws SQLException {
+        if (user.getId() > 0) {
+            update(user);
+        } else {
+            insert(user);
+        }
+    }
+    
+    public void delete(User user) throws SQLException {
+        String sql = "delete from \"user\" where \"id\" = ?;";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, user.getId());
+        statement.execute();
+        
+    }
+    
+    public ArrayList<User> selectAll() throws SQLException {
+        String sql = "select * from \"user\"";
+        PreparedStatement statement = connection.prepareStatement(sql);
+         
+        return search(statement);
+    }
+    
+    public User selectPerId(User user) throws SQLException {
+        String sql = "select * from \"user\" where \"id\" = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, user.getId());
+
+        return search(statement).get(0);
+    }
+    
     public boolean userByUsernameAndPasswordExists(User user) throws SQLException{
         String sql = "select * from \"user\" where \"user\" = ? and \"password\" = ?;";
         PreparedStatement statement = connection.prepareStatement(sql);
@@ -43,6 +85,23 @@ public class UserDAO {
 
         ResultSet resultSet = statement.getResultSet();
         return resultSet.next();
+    }
+    
+    private ArrayList<User> search(PreparedStatement statement) throws SQLException {
+        ArrayList<User> allUsers = new ArrayList<>();
+        statement.execute();
+        ResultSet resultSet = statement.getResultSet();
+        
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String user = resultSet.getString("user");
+            String pass = resultSet.getString("password");
+            
+            User dbUser = new User(id, user, pass);
+            allUsers.add(dbUser);
+        }
+        
+        return allUsers;
     }
 
 }
