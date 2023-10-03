@@ -6,6 +6,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,13 +24,21 @@ public class UserDAO {
         this.connection = connection;
     }
 
-    public void insert(User user) throws SQLException {
+    public User insert(User user) throws SQLException {
         String sql = "insert into \"user\" (\"user\",\"password\") values(?, ?);";
-        PreparedStatement statement = connection.prepareStatement(sql);
+        PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         statement.setString(1, user.getUser());
         statement.setString(2, user.getPassword());
         statement.execute();
-        System.out.println("Cadastrado com sucesso");
+        
+        ResultSet resultSet = statement.getGeneratedKeys();
+        
+        if(resultSet.next()) {
+            int id = resultSet.getInt("id");
+            user.setId(id);
+        }
+        System.out.println("Successfully inserted");
+        return user;
     }
     
     public void update(User user) throws SQLException {
